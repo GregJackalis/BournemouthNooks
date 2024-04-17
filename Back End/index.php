@@ -14,22 +14,17 @@ $request_uri = $_SERVER["REQUEST_URI"];
 
 $urlParts = explode("/", $request_uri);
 
-
-var_dump($urlParts[3]);
-
 $controller = new DataController();
 
-if ($urlParts[3] != 'datacol') {
-    $controller->sendResponse(["unsupported URL!", 404]);
-    http_response_code(404);
+if ($urlParts[3] != 'datacol') { // datacol == data collection
+    $controller->sendResponse(["unsupported URL!", 405]);
+    http_response_code(405);
     exit;
 }
 
 $id = $urlParts[4] ?? null; 
 
 $db_connetion = new DatabaseConnection('db');
-
-$db_connetion = $db_connetion->getConnectionObj();
 
 if ($db_connetion) {
     $controller->sendResponse(["Successfully connected to DB"]);
@@ -38,6 +33,10 @@ if ($db_connetion) {
     exit;
 }
 
+$csvSetup = new TableSetup();
 
+$gateway = new DataGateway($db_connetion, $csvSetup);
+
+$controller->setupAndProcess($gateway, $_SERVER["REQUEST_METHOD"], $id);
 
 ?>
