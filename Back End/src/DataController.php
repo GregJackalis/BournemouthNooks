@@ -36,6 +36,7 @@ class DataController {
             case "GET" :
                 $data = $this->$data_gateway->getCol();
                 $this->sendResponse([$data]);
+                break;
 
             default:
                 $this->sendResponse(["Method not Allowed", 405]);
@@ -47,6 +48,7 @@ class DataController {
             case "GET":
                 $data = $this->$data_gateway->getSpecific($id);
                 $this->sendResponse([$data]);
+                break;
             
             default:
                 $this->sendResponse(["Method not Allowed", 405]);
