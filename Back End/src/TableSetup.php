@@ -5,10 +5,15 @@ class TableSetup extends GetEnv {
     private array $columnNames;
     private int $numberOfColumns;
     private array $columnTypes;
+    private array $csvData;
 
     public function __construct() {
         $this->columnNames = parent::get_csv_columns();
         $this->numberOfColumns = count($this->columnNames);
+
+        $this->csvData = parent::get_csv_data();
+
+        // var_dump($this->csvData);
 
         // depending on the number of columns and the types that you want each column to be,
         // change the array below
@@ -26,5 +31,9 @@ class TableSetup extends GetEnv {
 
     public function getColumnTypes(): array {
         return $this->columnTypes;
+    }
+
+    public function getCSVData(): array {
+        return $this->csvData;
     }
 }
