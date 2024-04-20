@@ -11,12 +11,23 @@ class DataGateway {
         $exists = $this->tableExists("datasets");
 
         if (!$exists) {
-            $this->columnInfo = [array_map('ltrim', $csvSetup->getColumnNames()), $csvSetup->getColumnTypes()];
-            $this->buildTable();
+            try {
+                $this->buildTable();     
+                $this->columnInfo = [array_map('ltrim', $csvSetup->getColumnNames()), $csvSetup->getColumnTypes()];   
+            } catch (Exception $e) {
+                echo json_encode("Error when bulding table for CSV data: " . $e->getMessage());
+                exit();
+            }
+            
 
-            $csvD = $csvSetup->getCSVData();
-
-            $this->insertCSV($csvD);
+            try {
+                $csvD = $csvSetup->getCSVData();
+                $this->insertCSV($csvD);
+            } catch (Exception $e) {
+                echo json_encode("Error when inserting CSV data to table: " . $e->getMessage());
+                exit();
+            }
+            
 
         } else {
             echo json_encode("Table to store data already exists!");
@@ -61,7 +72,18 @@ class DataGateway {
         return in_array($tableName, $tables);
     }
 
-    // NOT WORKING YET, NEED TO WORK ON THIS
+    // i was thinking of using this function with the tableExists variable but it only made it more complicating, 
+    // but i will leave it here for now in case i use it in the future
+    private function tableEmpty(string $tableName): int {
+        $sql = "SELECT COUNT(*) FROM $tableName";
+        $stmt = $this->$conn->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = count($result);
+        return $result;
+    }
+
     private function insertCSV(array $data): void {
         $columns = implode(', ',$this->columnInfo[0]);
         // var_dump($columns);
