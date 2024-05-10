@@ -1,10 +1,19 @@
 <?php
-
 declare(strict_types=1); // using this php enables a strict mode in which data types are checked
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 spl_autoload_register(function ($class) {
-    require __DIR__ . "/src/$class.php";
-}); // autoloader for requiring files that have the same name as the class inside them
+
+    $file = __DIR__ . "/src/$class.php";
+    // echo "Autoloading class: $class from $file<br>";
+
+    try {
+        require $file;
+    } catch (Throwable $e) {
+        var_dump($e);
+    }
+});
 
 set_exception_handler("ErrorHandler::handleException"); 
 

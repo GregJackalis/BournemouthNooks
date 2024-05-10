@@ -8,12 +8,12 @@ class DataGateway {
     public function __construct(DatabaseConnection $database, TableSetup $csvSetup) {
         $this->$conn = $database->getConnectionObj();
 
-        $exists = $this->tableExists("datasets");
+        $exists = $this->tableExists("toilet_table");
 
         if (!$exists) {
             try {
-                $this->buildTable();     
                 $this->columnInfo = [array_map('ltrim', $csvSetup->getColumnNames()), $csvSetup->getColumnTypes()];   
+                $this->buildTable();     
             } catch (Exception $e) {
                 echo json_encode("Error when bulding table for CSV data: " . $e->getMessage());
                 exit();
@@ -47,11 +47,11 @@ class DataGateway {
             $columns[] = "`$columnName` $dataType";
         }
 
-        $sql = "CREATE TABLE datasets (
+        $sql = "CREATE TABLE toilet_table (
             id INT AUTO_INCREMENT PRIMARY KEY,
             " . implode(",", $columns) . ")";
         
-
+            echo json_encode($sql);
         // Preparing the statement
         $stmt = $this->$conn->prepare($sql);
         
@@ -85,17 +85,20 @@ class DataGateway {
     }
 
     private function insertCSV(array $data): void {
-        $columns = implode(', ',$this->columnInfo[0]);
-        // var_dump($columns);
+        $columns = implode(', ', array_map(function($column) {
+            return "`$column`";
+        }, $this->columnInfo[0]));
+
+        // var_dump($columns);        
 
         // rtrim removes from the first paramter (a string), the character that is given on the second parameter FROM THE END of the string
         // then in this case the string I'm giving it is the str_repeat function that will repeat the ? placeholder symbol for 5 times
         // using the the count() function and the column names that can be found on the first position of the local columnInfo array-type variable
         $params = rtrim(str_repeat('?, ', count($this->columnInfo[0])), ', ');
 
-
-        $sql = "INSERT INTO datasets ($columns) VALUES ($params)";
-
+        $sql = "INSERT INTO toilet_table ($columns) VALUES ($params)";
+        echo json_encode($sql);
+        
         $stmt = $this->$conn->prepare($sql);
     
         foreach ($data as $row) {
@@ -117,7 +120,7 @@ class DataGateway {
     }
     
     public function getCol(): array {
-        $sql = "SELECT * FROM datasets";
+        $sql = "SELECT * FROM toilet_table";
 
         $stmt = $this->$conn->query($sql);
         
@@ -130,7 +133,7 @@ class DataGateway {
     }
 
     public function getSpecific(string $id): array {
-        $sql = "SELECT * FROM datasets WHERE id = ?";
+        $sql = "SELECT * FROM toilet_table WHERE id = ?";
 
         $stmt = $this->$conn->prepare($sql);
 

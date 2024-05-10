@@ -1,0 +1,51 @@
+This project is about a website which follows a three-tier architecture while also implementing
+valuable practices and technologies, such as REST API for the "connection", JSON data when sending back
+to the front, and so on.
+
+The dataset used for the making of this website were found on data.gov.uk
+
+How will it work?
+- I will have the front built and then when a request happens to retrieve any info from the dataset or database,
+then ENDPOINTS will be used. These endpoints will be made on the backend side using PHP.
+
+- Basically, I will use PHP to build a REST API that will make and handle endpoints, and it will the
+"connector" between the front end and the database.
+
+
+
+<?php
+
+declare(strict_types=1);
+
+spl_autoload_register(function ($class) {
+    require __DIR__ . "/src/$class.php";
+});
+var_dump($_SERVER["REQUEST_URI"]);
+
+// set_exception_handler("ErrorHandler::handleException");
+
+header("Content-type: application/json; charset=UTF-8");
+
+$request_uri = $_SERVER["REQUEST_URI"];
+
+// Parse the request URL
+$urlParts = explode("/", trim($request_uri, "/"));
+
+// Check if the URL matches the expected structure
+if ($urlParts[0] === 'index' && $urlParts[1] === 'datacol' && isset($urlParts[2])) {
+    // Extract the ID from the URL
+    $id = $urlParts[2];
+    
+    // Handle the request based on the extracted ID
+    $controller = new DataController();
+    $controller->sendResponse(["Handling request for datacol with ID $id", 200]);
+    exit;
+} else {
+    // If the URL doesn't match the expected structure, return an error response
+    $controller = new DataController();
+    $controller->sendResponse(["Unsupported URL!", 405]);
+    http_response_code(405);
+    exit;
+}
+
+?>
