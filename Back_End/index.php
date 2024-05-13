@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1); // using this php enables a strict mode in which data types are checked
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 spl_autoload_register(function ($class) {
 
     $file = __DIR__ . "/src/$class.php";
@@ -35,11 +35,11 @@ $id = $urlParts[4] ?? null;
 
 $db_connetion = new DatabaseConnection('db');
 
-if ($db_connetion) {
-    $controller->sendResponse(["Successfully connected to DB"]);
-} else {
+if (!$db_connetion) {
     $controller->sendResponse(["There was an error connecting to DB", 500]);
     exit;
+} else {
+    // $controller->sendResponse(["Successfully connected to DB"]);
 }
 
 $csvSetup = new TableSetup();

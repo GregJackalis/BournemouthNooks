@@ -8,7 +8,7 @@ class DataGateway {
     public function __construct(DatabaseConnection $database, TableSetup $csvSetup) {
         $this->$conn = $database->getConnectionObj();
 
-        $exists = $this->tableExists("toilet_table");
+        $exists = $this->tableExists("places");
 
         if (!$exists) {
             try {
@@ -47,7 +47,7 @@ class DataGateway {
             $columns[] = "`$columnName` $dataType";
         }
 
-        $sql = "CREATE TABLE toilet_table (
+        $sql = "CREATE TABLE places (
             id INT AUTO_INCREMENT PRIMARY KEY,
             " . implode(",", $columns) . ")";
         
@@ -96,7 +96,7 @@ class DataGateway {
         // using the the count() function and the column names that can be found on the first position of the local columnInfo array-type variable
         $params = rtrim(str_repeat('?, ', count($this->columnInfo[0])), ', ');
 
-        $sql = "INSERT INTO toilet_table ($columns) VALUES ($params)";
+        $sql = "INSERT INTO places ($columns) VALUES ($params)";
         echo json_encode($sql);
         
         $stmt = $this->$conn->prepare($sql);
@@ -120,7 +120,7 @@ class DataGateway {
     }
     
     public function getCol(): array {
-        $sql = "SELECT * FROM toilet_table";
+        $sql = "SELECT * FROM places";
 
         $stmt = $this->$conn->query($sql);
         
@@ -132,8 +132,8 @@ class DataGateway {
 
     }
 
-    public function getSpecific(string $id): array {
-        $sql = "SELECT * FROM toilet_table WHERE id = ?";
+    public function getSpecific(string $id): array|false {
+        $sql = "SELECT * FROM places WHERE id = ?";
 
         $stmt = $this->$conn->prepare($sql);
 
@@ -143,9 +143,9 @@ class DataGateway {
 
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $data;
+        // return $data;
+        return $data !== false ? $data : false;
     }
-
 }
 
 ?>

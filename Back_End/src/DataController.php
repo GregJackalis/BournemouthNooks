@@ -12,8 +12,16 @@ class DataController {
     }
 
     public function sendResponse(array $data): void {
-        $this->jsonResponse["message"] = $data[0];
-        $this->jsonResponse["response_code"] = $data[1] ?? $this->jsonResponse["response_code"];
+        if ($data[0] == "noRec") {
+            $this->jsonResponse["message"] = "Invalid Record ID given";
+            $this->jsonResponse["response_code"] = 404;
+        } else {
+            $this->jsonResponse["message"] = $data[0];
+            $this->jsonResponse["response_code"] = $data[1] ?? $this->jsonResponse["response_code"];
+        }
+
+        http_response_code($this->jsonResponse["response_code"]);
+
         // if a response code is not given, then use the default response code that is given on the top of the class
 
         // Encode and output the jsonResponse
@@ -47,7 +55,11 @@ class DataController {
         switch ($http_req) {
             case "GET":
                 $data = $this->$data_gateway->getSpecific($id);
-                $this->sendResponse([$data]);
+                if ($data == false) {
+                    $this->sendResponse(["noRec"]);
+                } else {
+                    $this->sendResponse([$data]);
+                }
                 break;
             
             default:

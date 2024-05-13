@@ -17,7 +17,7 @@ class TableSetup extends GetEnv {
 
         // depending on the number of columns and the types that you want each column to be,
         // change the array below
-        $this->columnTypes = ["VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(3)", "VARCHAR(120)", "DECIMAL(10, 8)", "DECIMAL(10, 8)"];
+        $this->columnTypes = ["VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(4)", "VARCHAR(120)", "DECIMAL(10, 8)", "DECIMAL(10, 8)", "VARCHAR(30)"];
     }
 
     // getter function for the DataGateway class to use
