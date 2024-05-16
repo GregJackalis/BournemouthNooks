@@ -83,7 +83,7 @@ function fetchData(callback) {
     var xhr = new XMLHttpRequest();
 
     // Define the URL to send the request to
-    var url = "../Back_End/datacol";
+    var url = "./Back_End/datacol";
 
     // Configure the request
     xhr.open("GET", url, true);
