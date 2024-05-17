@@ -78,45 +78,6 @@ function initMap(response) {
     }
 }
 
-
-// function fetchData(callback) {
-//     fetch('/map/Back_End/datacol', {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         }
-//     })
-//     .then(response => {
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok');
-//         }
-//         console.log(response.text());
-//         return response.text(); // Get raw response text
-//     })
-//     .then(text => {
-//         // console.log('Raw response:', text); // Log the raw response
-
-//         // Find the index of the first '[' and the last ']' in the response text
-//         var startIndex = text.indexOf('[');
-//         var endIndex = text.lastIndexOf(']');
-
-//         // Extract the JSON array substring
-//         var jsonArrayString = text.substring(startIndex, endIndex + 1);
-
-//         // Parse the JSON array
-//         var jsonArray = JSON.parse(jsonArrayString);
-
-//         // Call the callback function with the parsed data
-//         callback(jsonArray);
-//     })
-//     .catch(error => {
-//         console.error('There has been a problem with your fetch operation:', error);
-//     });
-    
-// }
-
-let dataFetched = false; // Flag to track whether data has been fetched
-
 async function fetchData(callback) {
     try {
         const response = await fetch('/map/Back_End/datacol', {
@@ -157,8 +118,8 @@ async function fetchData(callback) {
 fetchData(initMap);
 
 
-
-
+// -------------------------------------------------------------------------------------------------------------------------
+// OLD XMLHttpRequest METHOD FOR COMMUNICATING WITH THE BACK (NOT WORKING ON PUBLIC DOMAINS DUE TO CORS POLICY) 
 
 // function fetchData(callback) {
 //     // Create a new XMLHttpRequest object
@@ -205,9 +166,7 @@ fetchData(initMap);
 
 // }
 
-// Call fetchData with initMap as callback function
-fetchData(initMap);
-
+// -------------------------------------------------------------------------------------------------------------------------
 
 function fetchIcon(backEndRes, type) {
     var requestOptions = {
@@ -215,7 +174,7 @@ function fetchIcon(backEndRes, type) {
     };
 
     if (type == "toilet") {
-        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%23409ca0&size=large&icon=restroom&iconType=awesome&strokeColor=%23484242&shadowColor=%23000000&noWhiteCircle&scaleFactor=2&apiKey=e37ca6204f484f9cbddcca6c6e6e193f", requestOptions)
+        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%23409ca0&size=large&icon=restroom&iconType=awesome&strokeColor=%23484242&shadowColor=%23000000&noWhiteCircle&scaleFactor=2&apiKey=YOUR_API_KEY", requestOptions)
         .then(backEndRes => backEndRes.blob()) // Get the image data as a Blob
         .then(blob => {
             const imageUrl = URL.createObjectURL(blob);
@@ -228,7 +187,7 @@ function fetchIcon(backEndRes, type) {
         .catch(error => console.log('error', error));
 
     } else if (type == "rest") {
-        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%23a0405e&size=large&icon=utensils&iconType=awesome&strokeColor=%23484242&shadowColor=%23000000&noWhiteCircle&scaleFactor=2&apiKey=e37ca6204f484f9cbddcca6c6e6e193f", requestOptions)
+        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%23a0405e&size=large&icon=utensils&iconType=awesome&strokeColor=%23484242&shadowColor=%23000000&noWhiteCircle&scaleFactor=2&apiKey=YOUR_API_KEY", requestOptions)
         .then(backEndRes => backEndRes.blob()) // Get the image data as a Blob
         .then(blob => {
             const imageUrl = URL.createObjectURL(blob);
@@ -241,7 +200,7 @@ function fetchIcon(backEndRes, type) {
         .catch(error => console.log('error', error));
 
     } else if (type == "cof") {
-        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%23d4af37&size=large&icon=coffee&iconType=awesome&strokeColor=%23484242&shadowColor=%23000000&noWhiteCircle&scaleFactor=2&apiKey=e37ca6204f484f9cbddcca6c6e6e193f", requestOptions)
+        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%23d4af37&size=large&icon=coffee&iconType=awesome&strokeColor=%23484242&shadowColor=%23000000&noWhiteCircle&scaleFactor=2&apiKey=YOUR_API_KEY", requestOptions)
         .then(backEndRes => backEndRes.blob()) // Get the image data as a Blob
         .then(blob => {
             const imageUrl = URL.createObjectURL(blob);
@@ -254,7 +213,7 @@ function fetchIcon(backEndRes, type) {
         .catch(error => console.log('error', error));
 
     } else if (type == "park") {
-        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%231c7528&size=large&icon=tree&iconType=awesome&strokeColor=%23484242&shadowColor=%23000000&noWhiteCircle&scaleFactor=2&apiKey=e37ca6204f484f9cbddcca6c6e6e193f", requestOptions)
+        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%231c7528&size=large&icon=tree&iconType=awesome&strokeColor=%23484242&shadowColor=%23000000&noWhiteCircle&scaleFactor=2&apiKey=YOUR_API_KEY", requestOptions)
         .then(backEndRes => backEndRes.blob()) // Get the image data as a Blob
         .then(blob => {
             const imageUrl = URL.createObjectURL(blob);
@@ -267,7 +226,7 @@ function fetchIcon(backEndRes, type) {
         .catch(error => console.log('error', error));
 
     } else if (type == "uni") {
-        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%23d36b25&size=large&icon=building&iconType=awesome&strokeColor=%23484242&shadowColor=%23000000&noWhiteCircle&scaleFactor=2&apiKey=e37ca6204f484f9cbddcca6c6e6e193f", requestOptions)
+        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%23d36b25&size=large&icon=building&iconType=awesome&strokeColor=%23484242&shadowColor=%23000000&noWhiteCircle&scaleFactor=2&apiKey=YOUR_API_KEY", requestOptions)
         .then(backEndRes => backEndRes.blob()) // Get the image data as a Blob
         .then(blob => {
             const imageUrl = URL.createObjectURL(blob);
@@ -280,7 +239,7 @@ function fetchIcon(backEndRes, type) {
         .catch(error => console.log('error', error));
 
     } else if (type == "gym") {
-        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%23a9e31c&icon=dumbbell&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=e37ca6204f484f9cbddcca6c6e6e193f", requestOptions)
+        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%23a9e31c&icon=dumbbell&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=YOUR_API_KEY", requestOptions)
         .then(backEndRes => backEndRes.blob()) // Get the image data as a Blob
         .then(blob => {
             const imageUrl = URL.createObjectURL(blob);
@@ -293,7 +252,7 @@ function fetchIcon(backEndRes, type) {
         .catch(error => console.log('error', error));
 
     } else if (type == "beach") {
-        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%231c9ce3&icon=umbrella-beach&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=e37ca6204f484f9cbddcca6c6e6e193f", requestOptions)
+        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%231c9ce3&icon=umbrella-beach&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=YOUR_API_KEY", requestOptions)
         .then(backEndRes => backEndRes.blob()) // Get the image data as a Blob
         .then(blob => {
             const imageUrl = URL.createObjectURL(blob);
@@ -306,7 +265,7 @@ function fetchIcon(backEndRes, type) {
         .catch(error => console.log('error', error));
 
     } else if (type == "theater") {
-        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%23d311b9&icon=theater-masks&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=e37ca6204f484f9cbddcca6c6e6e193f", requestOptions)
+        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%23d311b9&icon=theater-masks&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=YOUR_API_KEY", requestOptions)
         .then(backEndRes => backEndRes.blob()) // Get the image data as a Blob
         .then(blob => {
             const imageUrl = URL.createObjectURL(blob);
@@ -319,7 +278,7 @@ function fetchIcon(backEndRes, type) {
         .catch(error => console.log('error', error));
 
     } else if (type == "museum") {
-        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%231112d3&icon=university&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=e37ca6204f484f9cbddcca6c6e6e193f", requestOptions)
+        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%231112d3&icon=university&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=YOUR_API_KEY", requestOptions)
         .then(backEndRes => backEndRes.blob()) // Get the image data as a Blob
         .then(blob => {
             const imageUrl = URL.createObjectURL(blob);
@@ -332,7 +291,7 @@ function fetchIcon(backEndRes, type) {
         .catch(error => console.log('error', error));
 
     } else if (type == "hotel") {
-        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%23e33636&icon=hotel&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=e37ca6204f484f9cbddcca6c6e6e193f", requestOptions)
+        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%23e33636&icon=hotel&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=YOUR_API_KEY", requestOptions)
         .then(backEndRes => backEndRes.blob()) // Get the image data as a Blob
         .then(blob => {
             const imageUrl = URL.createObjectURL(blob);
@@ -345,7 +304,7 @@ function fetchIcon(backEndRes, type) {
         .catch(error => console.log('error', error));
 
     } else if (type == "museum") {
-        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%231112d3&icon=university&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=e37ca6204f484f9cbddcca6c6e6e193f", requestOptions)
+        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%231112d3&icon=university&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=YOUR_API_KEY", requestOptions)
         .then(backEndRes => backEndRes.blob()) // Get the image data as a Blob
         .then(blob => {
             const imageUrl = URL.createObjectURL(blob);
@@ -358,7 +317,7 @@ function fetchIcon(backEndRes, type) {
         .catch(error => console.log('error', error));
 
     } else if (type == "clothes") {
-        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%2384269c&icon=tshirt&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=e37ca6204f484f9cbddcca6c6e6e193f", requestOptions)
+        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%2384269c&icon=tshirt&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=YOUR_API_KEY", requestOptions)
         .then(backEndRes => backEndRes.blob()) // Get the image data as a Blob
         .then(blob => {
             const imageUrl = URL.createObjectURL(blob);
@@ -371,7 +330,7 @@ function fetchIcon(backEndRes, type) {
         .catch(error => console.log('error', error));
 
     } else if (type == "bar") {
-        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%2353310b&icon=beer&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=e37ca6204f484f9cbddcca6c6e6e193f", requestOptions)
+        fetch("https://api.geoapify.com/v1/icon/?type=material&color=%2353310b&icon=beer&iconType=awesome&noWhiteCircle&scaleFactor=2&apiKey=YOUR_API_KEY", requestOptions)
         .then(backEndRes => backEndRes.blob()) // Get the image data as a Blob
         .then(blob => {
             const imageUrl = URL.createObjectURL(blob);
