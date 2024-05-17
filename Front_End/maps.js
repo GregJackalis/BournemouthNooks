@@ -78,49 +78,132 @@ function initMap(response) {
     }
 }
 
-function fetchData(callback) {
-    // Create a new XMLHttpRequest object
-    var xhr = new XMLHttpRequest();
 
-    // Define the URL to send the request to
-    var url = "./Back_End/datacol";
+// function fetchData(callback) {
+//     fetch('/map/Back_End/datacol', {
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     })
+//     .then(response => {
+//         if (!response.ok) {
+//             throw new Error('Network response was not ok');
+//         }
+//         console.log(response.text());
+//         return response.text(); // Get raw response text
+//     })
+//     .then(text => {
+//         // console.log('Raw response:', text); // Log the raw response
 
-    // Configure the request
-    xhr.open("GET", url, true);
+//         // Find the index of the first '[' and the last ']' in the response text
+//         var startIndex = text.indexOf('[');
+//         var endIndex = text.lastIndexOf(']');
 
-    // Set up the onload function to handle the response
-    xhr.onload = function () {
-        // Check if the request was successful (status code 200)
-        if (xhr.status === 200) {
-            var responseData = xhr.responseText;
+//         // Extract the JSON array substring
+//         var jsonArrayString = text.substring(startIndex, endIndex + 1);
 
-            // Find the index of the first '[' and the last ']' in the responseData
-            var startIndex = responseData.indexOf('[');
-            var endIndex = responseData.lastIndexOf(']');
+//         // Parse the JSON array
+//         var jsonArray = JSON.parse(jsonArrayString);
 
-            // Extract the JSON array substring
-            var jsonArrayString = responseData.substring(startIndex, endIndex + 1);
+//         // Call the callback function with the parsed data
+//         callback(jsonArray);
+//     })
+//     .catch(error => {
+//         console.error('There has been a problem with your fetch operation:', error);
+//     });
+    
+// }
 
-            // Parse the JSON array
-            var jsonArray = JSON.parse(jsonArrayString);
+let dataFetched = false; // Flag to track whether data has been fetched
 
-            callback(jsonArray); // Call the callback function with fetched data
+async function fetchData(callback) {
+    try {
+        const response = await fetch('/map/Back_End/datacol', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
-        } else {
-            // Display an error message if the request was not successful
-            console.log('Request failed. Status: ' + xhr.status);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
-    };
 
-    // Set up error handling for the request
-    xhr.onerror = function () {
-        console.error('Request failed');
-    };
+        const text = await response.text(); // Get raw response text
+        console.log('Raw response:', text);
 
-    // Send the request
-    xhr.send();
+        // Find the index of the first '[' and the last ']' in the response text
+        var startIndex = text.indexOf('[');
+        var endIndex = text.lastIndexOf(']');
 
+        // Extract the JSON array substring
+        var jsonArrayString = text.substring(startIndex, endIndex + 1);
+
+        // Parse the JSON array
+        var jsonArray = JSON.parse(jsonArrayString);
+
+        // Call the callback function with the parsed data
+        callback(jsonArray);
+
+        dataFetched = true; // Set flag to true after fetching data
+    } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error);
+    }
 }
+
+
+// Call fetchData with initMap as callback function
+fetchData(initMap);
+
+
+
+
+
+// function fetchData(callback) {
+//     // Create a new XMLHttpRequest object
+//     var xhr = new XMLHttpRequest();
+
+//     // Define the URL to send the request to
+//     var url = "./Back_End/datacol";
+
+//     // Configure the request
+//     xhr.open("GET", url, true);
+
+//     // Set up the onload function to handle the response
+//     xhr.onload = function () {
+//         // Check if the request was successful (status code 200)
+//         if (xhr.status === 200) {
+//             var responseData = xhr.responseText;
+//             console.log(responseData);
+
+//             // Find the index of the first '[' and the last ']' in the responseData
+//             var startIndex = responseData.indexOf('[');
+//             var endIndex = responseData.lastIndexOf(']');
+
+//             // Extract the JSON array substring
+//             var jsonArrayString = responseData.substring(startIndex, endIndex + 1);
+
+//             // Parse the JSON array
+//             var jsonArray = JSON.parse(jsonArrayString);
+
+//             callback(jsonArray); // Call the callback function with fetched data
+
+//         } else {
+//             // Display an error message if the request was not successful
+//             console.log('Request failed. Status: ' + xhr.status);
+//         }
+//     };
+
+//     // Set up error handling for the request
+//     xhr.onerror = function () {
+//         console.error('Request failed');
+//     };
+
+//     // Send the request
+//     xhr.send();
+
+// }
 
 // Call fetchData with initMap as callback function
 fetchData(initMap);

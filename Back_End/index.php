@@ -19,17 +19,28 @@ set_exception_handler("ErrorHandler::handleException");
 
 header("Content-type: application/json; charset=UTF-8"); 
 
+header("Access-Control-Allow-Origin: http://localhost");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+// Handle preflight requests
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    // Return empty 200 response for preflight requests
+    http_response_code(200);
+    exit;
+}
+
 $request_uri = $_SERVER["REQUEST_URI"];
 
 $urlParts = explode("/", $request_uri);
 
 $controller = new DataController();
 
-if ($urlParts[3] != 'datacol') { // datacol == data collection
-    $controller->sendResponse(["unsupported URL!", 405]);
-    http_response_code(405);
-    exit;
-}
+// if ($urlParts[3] != 'datacol') { // datacol == data collection
+//     $controller->sendResponse([$urlParts, 405]);
+//     http_response_code(405);
+//     exit;
+// }
 
 $id = $urlParts[4] ?? null; 
 

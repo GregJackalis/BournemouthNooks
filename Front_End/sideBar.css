@@ -4,14 +4,16 @@
     position: relative;
     top: 75px;
     z-index: 2;
+
 }
 
 .wrapper .sidebar {
     width: 200px;
     height: 100%;
-    /* Background color applied after background image properties */
+    max-height: calc(100vh - 100px);
     padding: 20px 0px;
     position: fixed;
+    overflow-y: auto; /* Enable scrolling for the sidebar */
 }
 
 .wrapper .sidebar h2 {

@@ -30,7 +30,7 @@ class DataGateway {
             
 
         } else {
-            echo json_encode("Table to store data already exists!");
+            // echo json_encode("Table to store data already exists!");
         }
 
     }

@@ -71,7 +71,7 @@ ul {
     display: flex;
     align-items: center;
     position: relative;
-    left: 580px;
+    left: 600px;
     top: 5px;
     margin-right: 0;
     margin-left: 0;
@@ -110,19 +110,17 @@ nav .btns:hover {
 }
 
 .center{
- width: 100%;
- margin: 50px 70px;
- position: relative;
- top: 75px;
+    /* margin: 50px 70px; */
+    position: relative;
+    top: 100px;
+    /* overflow: hidden; */
 }
 
 .center .map {
     position: relative;
     align-items: center;
-    left: 145px;
-    bottom: 35px;
-    margin-right: auto;
-    margin-left: auto;
+    margin-left: 200px;
+    bottom: 30px;
 }
 
 
